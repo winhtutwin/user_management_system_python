@@ -9,7 +9,6 @@ def load_user_data():
             data = file.readlines()
             for line in data:
                 try:
-                    # Evaluate the line to convert it from string to dictionary
                     user_entry = ast.literal_eval(line.strip())
                     user_id = str(user_entry.get('id'))
                     if user_id:
@@ -20,9 +19,7 @@ def load_user_data():
 
 def save_user_data(user_data):
     """Save user data to a text file, ensuring no duplicates."""
-    # Convert user_data dictionary to a list of user info strings
     user_info_lines = [f"{info}" for info in user_data.values()]
-    # Remove duplicates by converting the list to a set and back to a list
     user_info_lines = list(set(user_info_lines))
     
     with open("userlist.txt", "w") as file:
@@ -83,7 +80,6 @@ def login_user():
     name = input("Enter your username: ")
     passcode = input("Enter your passcode: ")
 
-    # Find user by username
     user_info = None
     for user in user_data.values():
         if user['name'] == name:
@@ -141,7 +137,6 @@ def transfer_amount(current_user, user_data):
         print("Error: Insufficient funds.")
         return
 
-    # Find recipient by username
     recipient_info = None
     for user in user_data.values():
         if user['name'] == recipient_name:
@@ -153,15 +148,12 @@ def transfer_amount(current_user, user_data):
             print("Error: Cannot transfer to yourself.")
             return
 
-        # Update balances
         current_user['amount'] -= amount
         recipient_info['amount'] += amount
 
-        # Update the user data dictionary with the new information
         user_data[current_user['id']] = current_user
         user_data[recipient_info['id']] = recipient_info
 
-        # Save the updated user data
         save_user_data(user_data)
         print(f"Transfer successful! Your new balance: {current_user['amount']}")
     else:
@@ -178,14 +170,11 @@ def update_data(current_user, user_data):
         print("Error: Passcodes do not match.")
         return
 
-    # Update current user data
     current_user['name'] = new_name
     current_user['passcode'] = new_passcode
 
-    # Update the user data dictionary with the new information
     user_data[current_user['id']] = current_user
 
-    # Save the updated user data
     save_user_data(user_data)
     print("User information updated successfully!")
 
@@ -207,13 +196,10 @@ def withdraw_amount(current_user, user_data):
         print("Error: Insufficient funds.")
         return
 
-    # Perform the withdrawal
     current_user['amount'] -= amount
 
-    # Update the user data dictionary with the new balance
     user_data[current_user['id']] = current_user
 
-    # Save the updated user data
     save_user_data(user_data)
     print(f"Withdrawal successful! New balance: {current_user['amount']}")
 
