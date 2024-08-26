@@ -20,5 +20,5 @@ To run this script, you need Python 3.x installed on your machine.
 
 ```bash
 git clone https://github.com/winhtutwin/user_management_system_python.git
-cd user-management-system
+cd user_management_system_python
 usermanagementsystem.py
